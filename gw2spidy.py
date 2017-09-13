@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import urllib2
+import urllib.request
 try:
     import json
 except ImportError:
@@ -112,10 +112,10 @@ class Gw2Spidy:
     def _request(*args):
         """Makes a request on the GW2Spidy API."""
         url = 'http://www.gw2spidy.com/api/v0.9/json/' + '/'.join(args)
-	r = urllib2.Request(url, headers=Gw2Spidy.headers)
+	r = urllib.request.Request(url, headers=Gw2Spidy.headers)
 	if 'Cookie' not in Gw2Spidy.headers:
 	    resp = urllib2.urlopen(r)
 	    if 'set-cookie' in resp.headers:
 		Gw2Spidy.headers['Cookie'] = resp.headers['set-cookie'].split(';', 1)[0]
-	    return json.loads(resp.read())
-        return json.loads(urllib2.urlopen(r).read())
+	    return json.loads(resp.read().decode('utf-8'))
+        return json.loads(urllib.request.urlopen(r).read().decode('utf-8'))
